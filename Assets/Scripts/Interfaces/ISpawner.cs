@@ -6,8 +6,10 @@ namespace SorcererRush
     public interface ISpawner<T>
     {
         List<T> GetObjectsToSpawn();
-        void Spawn(int index, int count);
-        void Spawn(int index, RangeInt count);
+        void Spawn(int index, Vector2Int count);
+        void Spawn(T obj, Vector2Int count);
+        void SpawnRandom(Vector2Int count);
         void SpawnRandom();
+        float GetSpawnDelay();
     }
 }

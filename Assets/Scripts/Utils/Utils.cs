@@ -622,4 +622,23 @@ public static class Utils
             }
         }
     }
+
+    public static T Nearest<T>(List<T> all, Vector3 nearestTo) where T : MonoBehaviour
+    {
+        T current = default(T);
+        float oldDistance = int.MaxValue;
+        if (all == null || all.Count == 0) return current;
+        foreach (T pos_ in all)
+        {
+            var pos = (pos_ as MonoBehaviour).transform.position;
+            float dist = Utils.DistanceXZ(nearestTo, pos);
+            if (dist < oldDistance)
+            {
+                current = pos_;
+                oldDistance = dist;
+            }
+        }
+
+        return current;
+    }
 }

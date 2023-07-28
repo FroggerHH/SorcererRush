@@ -1,5 +1,6 @@
 ﻿using System;
 using NaughtyAttributes;
+using NTC.Global.Pool;
 using UnityEngine;
 
 namespace SorcererRush
@@ -26,14 +27,15 @@ namespace SorcererRush
 
         private void SpawnPlayer()
         {
-            localPlayer = Instantiate(playerPrefab, transform);
-            localPlayer.name = $"{localPlayer.name} (Spawned)";
+            localPlayer = NightPool.Spawn(playerPrefab, parent: transform);
+            localPlayer.name = $"{localPlayer.GetPrefabName()} (Spawned)";
         }
 
         private void SpawnCamera()
         {
-            localCamera = Instantiate(cameraPrefab, transform);
-            localCamera.name = $"{localCamera.name} (Spawned)";
+            localCamera = NightPool.Spawn(cameraPrefab, parent: transform);
+            localCamera.transform.position = cameraPrefab.transform.position;
+            localCamera.name = $"{localCamera.GetPrefabName()} (Spawned)";
         }
 
         private void InitSingleton()

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7523839228386732410}
   - component: {fileID: 3745495727309972849}
+  - component: {fileID: -3619655065896924927}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -44,6 +45,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d78b05988af74750bbd2f91b485381b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: -8874786258322542160, guid: f43d4fa4e037a5e47bf4af1ff5d9a93b, type: 3}
-  cameraPrefab: {fileID: 9132540419665541213, guid: 35b563711466a2f48977546381556d7a, type: 3}
+  localCamera: {fileID: 0}
   localPlayer: {fileID: 0}
+  playerPrefab: {fileID: 3292649280836402585, guid: f43d4fa4e037a5e47bf4af1ff5d9a93b, type: 3}
+  cameraPrefab: {fileID: 9132540419665541213, guid: 35b563711466a2f48977546381556d7a, type: 3}
+--- !u!114 &-3619655065896924927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707959567995057201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69731c03d8122304aabba4ef6468f06f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolPreset: {fileID: 11400000, guid: 3f55613d242a2544da328ce23b5d338c, type: 2}

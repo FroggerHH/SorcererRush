@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace SorcererRush
 {
@@ -8,5 +9,15 @@ namespace SorcererRush
     {
         private PlayerControl control;
 
+        private void Awake()
+        {
+            control = GetComponent<PlayerControl>();
+            control.InitValues();
+        }
+
+        private void FixedUpdate()
+        {
+            control.Move();
+        }
     }
 }
