@@ -37,6 +37,7 @@ namespace SorcererRush
         public ITakeDamage TakeDamage(Damage damage)
         {
             health -= damage.damage;
+            GameManager.Instance.localInGameUI.CreatePopUp(damage.damage.ToString(), transform.position);
 
             OnDamaged();
             return this;
