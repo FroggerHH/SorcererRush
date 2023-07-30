@@ -8,12 +8,8 @@ namespace SorcererRush
     {
         public override void OnDamaged()
         {
+            base.OnDamaged();
             Utils.Heightlight(this, Color.red);
-        }
-
-        public override void OnDeath()
-        {
-            
         }
     }
 }

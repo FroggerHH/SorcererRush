@@ -8,14 +8,21 @@ using Random = UnityEngine.Random;
 
 namespace SorcererRush
 {
-    public class SpawnArea : MonoBehaviour, ISpawner<Unit>
+    public class SpawnArea : MonoBehaviour, ISpawner
     {
-        [SerializeField] private List<Unit> spawnUnits = new();
+        [SerializeField] private List<SpawnData> spawnUnits = new();
+        private List<GameObject> spawnedObjects = new();
         [SerializeField] private float spawnRadius = 0.5f;
         [SerializeField] private float spawnDelay = 1.5f;
         [Header("Debug")] [SerializeField] private bool drawRandomPos = false;
+        [SerializeField] private float spawnLimit = int.MaxValue;
 
-        public List<Unit> GetObjectsToSpawn() => spawnUnits;
+        public List<SpawnData> GetObjectsToSpawn() => spawnUnits;
+
+        public List<GameObject> GetSpawnedObjects()
+        {
+            return spawnedObjects;
+        }
 
         private void Start()
         {
@@ -29,10 +36,11 @@ namespace SorcererRush
             StartCoroutine(StartSpawning());
         }
 
-        public void Spawn(int index, Vector2Int count)
+        public void Spawn(int index)
         {
+            if(!CheckSpawnLimit()) return;
             var pos = CalculateRandomSpawnPos();
-            var spawn = NightPool.Spawn(spawnUnits[index], pos, Quaternion.identity);
+            spawnedObjects.Add(NightPool.Spawn(spawnUnits[index].prefab, pos, Quaternion.identity));
         }
 
         private Vector3 CalculateRandomSpawnPos()
@@ -42,27 +50,25 @@ namespace SorcererRush
             return transform.position + pos;
         }
 
-        public void Spawn(Unit obj, Vector2Int count)
+        public void Spawn(SpawnData spawnData)
         {
-            for (int i = 0; i < Random.Range(count.x, count.y); i++)
+            if(!CheckSpawnLimit()) return;
+            for (int i = 0; i < Random.Range(spawnData.count.x, spawnData.count.y); i++)
             {
-                NightPool.Spawn(obj, CalculateRandomSpawnPos());
+                spawnedObjects.Add(NightPool.Spawn(spawnData.prefab, CalculateRandomSpawnPos()));
             }
         }
 
-
-        public void SpawnRandom(Vector2Int count)
-        {
-            throw new System.NotImplementedException();
-        }
-
+        private bool CheckSpawnLimit() => spawnedObjects.Count < GetSpawnLimit();
 
         public void SpawnRandom()
         {
-            Spawn(GetObjectsToSpawn().Random(), new(1, 5));
+            Spawn(GetObjectsToSpawn().Random());
         }
 
         public float GetSpawnDelay() => spawnDelay;
+
+        public float GetSpawnLimit() => spawnLimit;
 
         private void OnDrawGizmosSelected()
         {

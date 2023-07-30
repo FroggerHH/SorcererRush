@@ -45,6 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnUnits:
-  - {fileID: -8570025107918241240, guid: b9e54e95556bb0044ac5ccc097053eff, type: 3}
+  - prefab: {fileID: 4649378366305694793, guid: b9e54e95556bb0044ac5ccc097053eff, type: 3}
+    count: {x: 1, y: 4}
   spawnRadius: 3.3
+  spawnDelay: 1.5
   drawRandomPos: 0
+  spawnLimit: 3

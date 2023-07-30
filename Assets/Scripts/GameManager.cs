@@ -2,6 +2,7 @@
 using NaughtyAttributes;
 using NTC.Global.Pool;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace SorcererRush
 {
@@ -10,16 +11,16 @@ namespace SorcererRush
     {
         [HideInInspector] public static GameManager Instance;
         [ReadOnly, ShowIf("HasCameraPrefab")] public GameCamera localCamera;
-        [ReadOnly, ShowIf("HasPlayerPrefab")] public Player localPlayer;
+        [FormerlySerializedAs("localPlayer")] [ReadOnly, ShowIf("HasPlayerPrefab")] public PlayerUnit localPlayerUnit;
 
         [ReadOnly, ShowIf("HasInGameUIPrefab")]
         public InGameUI localInGameUI;
 
-        [Required] public Player playerPrefab;
+        [FormerlySerializedAs("playerPrefab")] [Required] public PlayerUnit playerUnitPrefab;
         [Required] public GameCamera cameraPrefab;
         [Required] public InGameUI inGameUIPrefab;
 
-        private bool HasPlayerPrefab => playerPrefab && Application.isPlaying;
+        private bool HasPlayerPrefab => playerUnitPrefab && Application.isPlaying;
         private bool HasCameraPrefab => cameraPrefab && Application.isPlaying;
         private bool HasInGameUIPrefab => inGameUIPrefab && Application.isPlaying;
 
@@ -33,17 +34,17 @@ namespace SorcererRush
 
         private void SpawnInGameUI()
         {
-            localInGameUI = NightPool.Spawn(inGameUIPrefab, parent: transform);
+            localInGameUI = NightPool.Spawn(inGameUIPrefab);
         }
 
         private void SpawnPlayer()
         {
-            localPlayer = NightPool.Spawn(playerPrefab, parent: transform);
+            localPlayerUnit = NightPool.Spawn(playerUnitPrefab);
         }
 
         private void SpawnCamera()
         {
-            localCamera = NightPool.Spawn(cameraPrefab, parent: transform);
+            localCamera = NightPool.Spawn(cameraPrefab);
             localCamera.transform.position = cameraPrefab.transform.position;
         }
 
@@ -51,7 +52,7 @@ namespace SorcererRush
         {
             if (Instance)
             {
-                Debug.LogError("Doble singleton.");
+                Debug.LogError("Double singleton.");
                 Destroy(gameObject);
                 return;
             }

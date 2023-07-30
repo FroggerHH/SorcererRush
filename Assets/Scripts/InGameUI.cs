@@ -14,8 +14,10 @@ namespace SorcererRush
 
         public void CreatePopUp(string msg, Vector3 position)
         {
-            NightPool.Spawn(popUpPrefab, position);
-            NightPool.Despawn(popUpPrefab, popUpLifeTime);
+            var spawn = NightPool.Spawn(popUpPrefab, position, rotation: popUpPrefab.transform.rotation);
+            spawn.transform.SetParent(transform);
+            spawn.text = msg;
+            NightPool.Despawn(spawn, popUpLifeTime);
         }
     }
 }

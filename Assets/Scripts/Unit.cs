@@ -1,15 +1,30 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
+using NTC.Global.Pool;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace SorcererRush
 {
-    public abstract class Unit : MonoBehaviour, ITakeDamage, IHighlightable
+    public abstract class Unit : MonoBehaviour, ITakeDamage, IHighlightable, IPoolItem
     {
-        private float health = 0;
+        private Unit prefab;
+        [SerializeField] public UnitFraction fraction;
+        [SerializeField] private float health = 100;
         private Renderer[] renderers;
-        private static List<Unit> Instances = new();
+        public static List<Unit> Instances = new();
+
+        private void Awake()
+        {
+            SetPrefab();
+        }
+
+        private void SetPrefab()
+        {
+            prefab = ObjectBD.Instance.GetPrefab(this.GetPrefabName()).GetComponent<Unit>();
+        }
 
         protected virtual void Reset()
         {
@@ -19,14 +34,6 @@ namespace SorcererRush
         private void SetRenderers()
         {
             renderers = GetComponentsInChildren<Renderer>(true);
-        }
-
-        protected virtual void OnEnable()
-        {
-        }
-
-        protected virtual void OnDisable()
-        {
         }
 
         public virtual float GetHealth()
@@ -43,11 +50,21 @@ namespace SorcererRush
             return this;
         }
 
-        public abstract void OnDamaged();
+        public virtual void OnDamaged()
+        {
+            if (health <= 0) Die();
+            // TODO: damage vfx
+        }
+
+        public virtual void Die()
+        {
+            OnDeath();
+        }
 
         public virtual void OnDeath()
         {
-            Instances.Remove(this);
+            NightPool.Despawn(gameObject);
+            //TODO: death vfx
         }
 
         public Renderer[] GetRenderers()
@@ -55,5 +72,29 @@ namespace SorcererRush
             if (renderers == null) SetRenderers();
             return renderers;
         }
+
+        [Button]
+        private void DebugDamage()
+        {
+            TakeDamage(new Damage(Random.Range(1f, 15f), DamageType.DevDamage));
+        }
+
+        public void OnSpawn()
+        {
+            if (!prefab) SetPrefab();
+            Instances.Add(this);
+            health = prefab.health;
+        }
+
+        public void OnDespawn()
+        {
+            Instances.Remove(this);
+        }
+    }
+
+    public enum UnitFraction
+    {
+        Player = 0,
+        Monster = 1
     }
 }

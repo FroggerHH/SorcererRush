@@ -3,13 +3,14 @@ using UnityEngine;
 
 namespace SorcererRush
 {
-    public interface ISpawner<T>
+    public interface ISpawner
     {
-        List<T> GetObjectsToSpawn();
-        void Spawn(int index, Vector2Int count);
-        void Spawn(T obj, Vector2Int count);
-        void SpawnRandom(Vector2Int count);
+        List<SpawnData> GetObjectsToSpawn();
+        List<GameObject> GetSpawnedObjects();
+        void Spawn(int index);
+        void Spawn(SpawnData obj);
         void SpawnRandom();
         float GetSpawnDelay();
+        float GetSpawnLimit();
     }
 }
