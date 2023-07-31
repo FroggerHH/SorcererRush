@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SorcererRush
@@ -6,7 +6,7 @@ namespace SorcererRush
     public interface ISpawner
     {
         List<SpawnData> GetObjectsToSpawn();
-        List<GameObject> GetSpawnedObjects();
+        List<ComponentsCach> GetSpawnedObjects();
         void Spawn(int index);
         void Spawn(SpawnData obj);
         void SpawnRandom();

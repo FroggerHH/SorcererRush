@@ -11,12 +11,16 @@ namespace SorcererRush
     {
         [HideInInspector] public static GameManager Instance;
         [ReadOnly, ShowIf("HasCameraPrefab")] public GameCamera localCamera;
-        [FormerlySerializedAs("localPlayer")] [ReadOnly, ShowIf("HasPlayerPrefab")] public PlayerUnit localPlayerUnit;
+
+        [FormerlySerializedAs("localPlayer")] [ReadOnly, ShowIf("HasPlayerPrefab")]
+        public PlayerUnit localPlayerUnit;
 
         [ReadOnly, ShowIf("HasInGameUIPrefab")]
         public InGameUI localInGameUI;
 
-        [FormerlySerializedAs("playerPrefab")] [Required] public PlayerUnit playerUnitPrefab;
+        [FormerlySerializedAs("playerPrefab")] [Required]
+        public PlayerUnit playerUnitPrefab;
+
         [Required] public GameCamera cameraPrefab;
         [Required] public InGameUI inGameUIPrefab;
 
@@ -46,6 +50,7 @@ namespace SorcererRush
         {
             localCamera = NightPool.Spawn(cameraPrefab);
             localCamera.transform.position = cameraPrefab.transform.position;
+            localCamera.transform.rotation = cameraPrefab.transform.rotation;
         }
 
         private void InitSingleton()
@@ -58,6 +63,12 @@ namespace SorcererRush
             }
 
             Instance = this;
+        }
+
+        public void GameOver()
+        {
+            Debug.Log("Game Over");
+            //TODO: Implement game over
         }
     }
 }

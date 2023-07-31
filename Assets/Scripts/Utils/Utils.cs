@@ -606,7 +606,7 @@ public static class Utils
             foreach (Material material in renderer.materials)
             {
                 if (material.HasProperty("_EmissionColor"))
-                    material.SetColor("_EmissionColor", Color.yellow * 0.7f);
+                    material.SetColor("_EmissionColor", color * 0.7f);
                 material.color = color;
             }
         }

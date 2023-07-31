@@ -1,31 +1,32 @@
-﻿using NaughtyAttributes;
+﻿using Redcode.Extensions;
 using UnityEngine;
 
 namespace SorcererRush
 {
     [AddComponentMenu("Game/TopDownMovement")]
-    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Rigidbody))]
     public class TopDownMovement : PlayerControl
     {
-        private Rigidbody2D rb;
-        [ReadOnly] private Vector3 oldDir;
+        private Rigidbody rb;
+        private Vector3 oldDir;
 
         public override void Move()
         {
-            rb.velocity = Vector2.Lerp(rb.velocity, GetMoveDir() * speed, Time.deltaTime / braking);
+            base.Move();
+            transform.Translate(GetMoveDir() * speed / 100f);
         }
 
         public override void InitValues()
         {
-            rb = GetComponent<Rigidbody2D>();
+            rb = GetComponent<Rigidbody>();
         }
 
         protected override Vector3 GetMoveDir()
         {
             float moveX = Input.GetAxisRaw("Horizontal");
             float moveY = Input.GetAxisRaw("Vertical");
-            var result = Vector2.Lerp(oldDir, new Vector3(moveX, moveY, 0).normalized, Time.deltaTime / braking);
-            oldDir = new Vector3(moveX, moveY, 0).normalized;
+            var result = Vector3.Lerp(oldDir, new Vector3(moveX, 0, moveY).normalized, Time.deltaTime / braking);
+            oldDir = new Vector3(moveX, 0, moveY).normalized;
             return result;
         }
     }

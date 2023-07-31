@@ -12,7 +12,9 @@ namespace SorcererRush
         [HideInInspector] public static ObjectBD Instance => m_instance;
 
         [SerializeField] private List<GameObject> m_prefabs = new();
+        [SerializeField] private List<ItemData> m_items = new();
         private Dictionary<int, GameObject> m_prefabsByHash = new();
+        private Dictionary<int, ItemData> m_itemsByHash = new();
 
         private void Awake()
         {
@@ -43,8 +45,16 @@ namespace SorcererRush
 
         public GameObject GetPrefab(int hash)
         {
-            GameObject gameObject;
-            return m_prefabsByHash.TryGetValue(hash, out gameObject) ? gameObject : null;
+            GameObject result;
+            return m_prefabsByHash.TryGetValue(hash, out result) ? result : null;
+        }
+
+        public ItemData GetItem(string name) => GetItem(name.GetStableHashCode());
+
+        public ItemData GetItem(int hash)
+        {
+            ItemData result;
+            return m_itemsByHash.TryGetValue(hash, out result) ? result : null;
         }
     }
 }

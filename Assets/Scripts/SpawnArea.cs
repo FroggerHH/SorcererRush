@@ -11,7 +11,7 @@ namespace SorcererRush
     public class SpawnArea : MonoBehaviour, ISpawner
     {
         [SerializeField] private List<SpawnData> spawnUnits = new();
-        private List<GameObject> spawnedObjects = new();
+        private List<ComponentsCach> spawnedObjects = new();
         [SerializeField] private float spawnRadius = 0.5f;
         [SerializeField] private float spawnDelay = 1.5f;
         [Header("Debug")] [SerializeField] private bool drawRandomPos = false;
@@ -19,7 +19,7 @@ namespace SorcererRush
 
         public List<SpawnData> GetObjectsToSpawn() => spawnUnits;
 
-        public List<GameObject> GetSpawnedObjects()
+        public List<ComponentsCach> GetSpawnedObjects()
         {
             return spawnedObjects;
         }
@@ -40,13 +40,19 @@ namespace SorcererRush
         {
             if(!CheckSpawnLimit()) return;
             var pos = CalculateRandomSpawnPos();
-            spawnedObjects.Add(NightPool.Spawn(spawnUnits[index].prefab, pos, Quaternion.identity));
+            var spawn = NightPool.Spawn(spawnUnits[index].prefab, pos, Quaternion.identity);
+            spawnedObjects.Add(spawn);
+            if (spawn.character)
+            {
+                spawn.character.spawnedFrom = this;
+            }
+            
         }
 
         private Vector3 CalculateRandomSpawnPos()
         {
             var unitCircle = Random.insideUnitCircle * spawnRadius;
-            Vector3 pos = new(unitCircle.x, unitCircle.y, 0);
+            Vector3 pos = new(unitCircle.x, 0, unitCircle.y);
             return transform.position + pos;
         }
 
@@ -55,7 +61,12 @@ namespace SorcererRush
             if(!CheckSpawnLimit()) return;
             for (int i = 0; i < Random.Range(spawnData.count.x, spawnData.count.y); i++)
             {
-                spawnedObjects.Add(NightPool.Spawn(spawnData.prefab, CalculateRandomSpawnPos()));
+                var spawn = NightPool.Spawn(spawnData.prefab, CalculateRandomSpawnPos());
+                spawnedObjects.Add(spawn);
+                if (spawn.character)
+                {
+                    spawn.character.spawnedFrom = this;
+                }
             }
         }
 

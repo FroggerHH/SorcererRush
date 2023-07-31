@@ -10,7 +10,7 @@ namespace SorcererRush
         [ConsoleMethod(nameof(KillAll), "Insantly kills all enemies")]
         public static void KillAll()
         {
-            var units = Unit.Instances.Where(x => x.fraction is UnitFraction.Monster).ToList();
+            var units = Character.Instances.Where(x => x.fraction is UnitFraction.Monster).ToList();
             var unitsCount = units.Count;
             units.ForEach(x => x.TakeDamage(new Damage(int.MaxValue, DamageType.DevDamage)));
             Debug.Log($"{unitsCount} enemies have been killed");
