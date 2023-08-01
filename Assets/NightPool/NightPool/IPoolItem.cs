@@ -4,6 +4,8 @@
 // Copyright (c) 2021-2022 Night Train Code
 // ----------------------------------------------------------------------------
 
+using UnityEngine;
+
 namespace NTC.Global.Pool
 {
     public interface IPoolItem

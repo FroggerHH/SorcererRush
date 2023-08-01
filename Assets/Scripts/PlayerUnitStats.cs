@@ -12,5 +12,6 @@ namespace SorcererRush
 
         public UnitStats unitStats { get; private set; }
         public float cooldown = 0.0f;
+        public float duration = 0.0f;
     }
 }

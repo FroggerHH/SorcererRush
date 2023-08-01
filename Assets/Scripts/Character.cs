@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using NaughtyAttributes;
 using NTC.Global.Pool;
+using Redcode.Extensions;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -12,7 +14,8 @@ namespace SorcererRush
     [RequireComponent(typeof(ComponentsCach))]
     public class Character : MonoBehaviour, ITakeDamage, IHighlightable, IPoolItem
     {
-        private Character prefab;
+        private ComponentsCach prefab;
+
         private ComponentsCach componentsCach;
         [SerializeField] public UnitFraction fraction;
         [SerializeField] private float health = 100;
@@ -21,8 +24,9 @@ namespace SorcererRush
 
         [SerializeField] protected UnitStats unitStats;
         private Renderer[] renderers;
-        public static List<Character> Instances = new();
-        
+        public static List<Character> all = new();
+        public static List<Character> playerUnits => all.Where(x => x.fraction == UnitFraction.Player).ToList();
+
         [SerializeField] private Inventory m_inventory;
         public Inventory GetInventory() => m_inventory;
 
@@ -40,11 +44,9 @@ namespace SorcererRush
             }
         }
 
-        private void SetPrefab()
-        {
-            prefab = ObjectBD.Instance.GetPrefab(this.GetPrefabName()).GetComponent<Character>();
-        }
+        public ComponentsCach GetPrefab() => prefab;
 
+        public void SetPrefab() => prefab = ObjectBD.Instance.GetPrefab(this.GetPrefabName()).GetComponent<ComponentsCach>();
 
         protected virtual void Reset()
         {
@@ -109,21 +111,27 @@ namespace SorcererRush
             TakeDamage(new Damage(Random.Range(1f, 15f), DamageType.DevDamage));
         }
 
+
         public virtual void OnSpawn()
         {
-            if (!prefab) SetPrefab();
-            Instances.Add(this);
-            health = prefab.health;
+            if (!GetPrefab()) SetPrefab();
+            all.Add(this);
+            health = GetPrefab().character.health;
+            if(componentsCach.baseAI) componentsCach.baseAI.OnSpawn();
         }
 
         public virtual void OnDespawn()
         {
-            Instances.Remove(this);
+            all.Remove(this);
+            if(componentsCach.baseAI) componentsCach.baseAI.OnSpawn();
         }
 
         public virtual Stats GetStats()
         {
             return unitStats;
         }
+
+        private void OnBecameVisible() => GetRenderers().ForEach(renderer => renderer.gameObject.SetActive(true));
+        private void OnBecameInvisible() => GetRenderers().ForEach(renderer => renderer.gameObject.SetActive(false));
     }
 }

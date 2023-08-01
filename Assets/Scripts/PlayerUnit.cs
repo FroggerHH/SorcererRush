@@ -8,7 +8,6 @@ namespace SorcererRush
     [RequireComponent(typeof(PlayerControl))]
     public class PlayerUnit : Character
     {
-        public static List<PlayerUnit> playerUnits { get; private set; } = new();
         public PlayerControl control { get; private set; }
 
         [SerializeField] private PlayerUnitStats playerStats;
@@ -41,13 +40,7 @@ namespace SorcererRush
         public override void OnSpawn()
         {
             base.OnSpawn();
-            playerUnits.Add(this);
-        }
-
-        public override void OnDespawn()
-        {
-            base.OnDespawn();
-            playerUnits.Remove(this);
+            playerStats = (GetPrefab().character as PlayerUnit).playerStats;
         }
     }
 }

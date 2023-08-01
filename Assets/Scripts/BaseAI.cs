@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using NTC.Global.Pool;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -8,27 +9,28 @@ using Random = UnityEngine.Random;
 namespace SorcererRush
 {
     [RequireComponent(typeof(ComponentsCach))]
-    public class BaseAI : MonoBehaviour, IPoolItem
+    public abstract class BaseAI : MonoBehaviour
     {
-        private ComponentsCach componentsCach;
-        private Character character;
-        private PlayerUnit target;
+        protected ComponentsCach componentsCach;
+        public PlayerUnit target { get; protected set; }
+        public bool HasTarget() => target;
+
+        [SerializeField, MinMaxSlider(0.5f, 10)]
+        private Vector2 updateTargetInternal = new(2, 5);
 
         protected virtual void Awake()
         {
             componentsCach = GetComponent<ComponentsCach>();
-            character = GetComponent<Character>();
-            componentsCach.character = character;
+            componentsCach.character = GetComponent<Character>();
             componentsCach.baseAI = this;
         }
 
-        public virtual void UpdateAI(float dt)
-        {
-            
-        }
+        public abstract void UpdateAI(float dt);
 
-        public void OnSpawn( )
+        public virtual void OnSpawn()
         {
+            target = null;
+            updateTargetInternal = GetPrefab().baseAI.updateTargetInternal;
             StartCoroutine(UpdateTarget());
         }
 
@@ -37,11 +39,13 @@ namespace SorcererRush
             StopCoroutine(UpdateTarget());
         }
 
-        private IEnumerator UpdateTarget()
+        protected virtual IEnumerator UpdateTarget()
         {
-            target = Utils.Nearest(PlayerUnit.playerUnits, transform.position);
-            yield return new WaitForSeconds(Random.Range(2f, 5f));
+            target = Utils.Nearest(PlayerUnit.playerUnits, transform.position) as PlayerUnit;
+            yield return new WaitForSeconds(Random.Range(updateTargetInternal.x, updateTargetInternal.y));
             StartCoroutine(UpdateTarget());
         }
+
+        protected ComponentsCach GetPrefab() => componentsCach.character.GetPrefab();
     }
 }

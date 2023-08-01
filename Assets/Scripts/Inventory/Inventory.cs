@@ -12,12 +12,15 @@ namespace SorcererRush
         [SerializeField] [ReadOnly] private List<InventoryItem> items = new();
 
         public List<InventoryItem> GetItems() => items;
-        public List<InventoryItem> GetItems(ItemType itemType) => items.Where(x => x.item.itemType == itemType).ToList();
+
+        public List<InventoryItem> GetItems(ItemType itemType) =>
+            items.Where(x => x.item.itemType == itemType).ToList();
 
         public void AddItem(InventoryItem item)
         {
             if (!items.Contains(item)) items.Add(item);
         }
+
         public void AddItem(ItemData item)
         {
             InventoryItem inventoryItem = new(item);
@@ -25,5 +28,7 @@ namespace SorcererRush
         }
 
         public void AddWeapon(Weapon weapon) => AddItem(weapon);
+
+        public Weapon GetRandomWeapon() => GetItems(ItemType.Weapon).Random() as Weapon;
     }
 }
