@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace SorcererRush
 {
@@ -10,5 +11,7 @@ namespace SorcererRush
         ITakeDamage TakeDamage(Damage damage);
         void OnDamaged();
         void OnDeath();
+        Vector2 GetPosition();
+        MonoBehaviour GetMonoBehaviour();
     }
 }

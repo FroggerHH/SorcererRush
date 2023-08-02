@@ -53,6 +53,7 @@ MonoBehaviour:
   playerUnitPrefab: {fileID: 3292649280836402585, guid: f43d4fa4e037a5e47bf4af1ff5d9a93b, type: 3}
   cameraPrefab: {fileID: 9132540419665541213, guid: 35b563711466a2f48977546381556d7a, type: 3}
   inGameUIPrefab: {fileID: 6544853659291744538, guid: 064e6be0df9a1b743ae0f604bd5911de, type: 3}
+  enemyTag: Enemy
 --- !u!114 &7029633051734299709
 MonoBehaviour:
   m_ObjectHideFlags: 0

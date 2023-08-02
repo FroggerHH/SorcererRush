@@ -24,6 +24,9 @@ namespace SorcererRush
         [Required] public GameCamera cameraPrefab;
         [Required] public InGameUI inGameUIPrefab;
 
+        [Tag]
+        public string enemyTag;
+
         private bool HasPlayerPrefab => playerUnitPrefab && Application.isPlaying;
         private bool HasCameraPrefab => cameraPrefab && Application.isPlaying;
         private bool HasInGameUIPrefab => inGameUIPrefab && Application.isPlaying;

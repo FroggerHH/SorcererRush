@@ -173,9 +173,10 @@ GameObject:
   - component: {fileID: 3832676686539911455}
   - component: {fileID: 3292649280836402585}
   - component: {fileID: 4743662831688106102}
+  - component: {fileID: 349817363633383342}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -224,6 +225,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fraction: 1
   health: 100
+  damageColor: {r: 0.9, g: 0.2, b: 0, a: 1}
+  unitStats:
+    speed: 0
+    damage: 0
+    armor: 0
+    health: 0
+  m_inventory:
+    items: []
+  startItems: []
+  playerStats:
+    cooldown: 0
+    duration: 0
 --- !u!54 &4743662831688106102
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -240,3 +253,18 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 84
   m_CollisionDetection: 0
+--- !u!114 &349817363633383342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8279035515716555581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717b6c910f054500a2687bb4164cfcea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 0}
+  baseAI: {fileID: 0}
+  projectile: {fileID: 0}

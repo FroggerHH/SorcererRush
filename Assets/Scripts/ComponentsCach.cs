@@ -6,6 +6,7 @@ namespace SorcererRush
     {
         public Character character;
         public BaseAI baseAI;
+        public Projectile projectile;
         //TODO: item
     }
 }

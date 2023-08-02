@@ -46,7 +46,8 @@ namespace SorcererRush
 
         public ComponentsCach GetPrefab() => prefab;
 
-        public void SetPrefab() => prefab = ObjectBD.Instance.GetPrefab(this.GetPrefabName()).GetComponent<ComponentsCach>();
+        public void SetPrefab() =>
+            prefab = ObjectBD.Instance.GetPrefab(this.GetPrefabName()).GetComponent<ComponentsCach>();
 
         protected virtual void Reset()
         {
@@ -98,6 +99,14 @@ namespace SorcererRush
             //TODO: death vfx
         }
 
+        public Vector2 GetPosition()
+        {
+            var position = transform.position;
+            return new(position.x, position.z);
+        }
+
+        public MonoBehaviour GetMonoBehaviour() => this;
+
         public Renderer[] GetRenderers()
         {
             if (renderers == null) SetRenderers();
@@ -117,13 +126,13 @@ namespace SorcererRush
             if (!GetPrefab()) SetPrefab();
             all.Add(this);
             health = GetPrefab().character.health;
-            if(componentsCach.baseAI) componentsCach.baseAI.OnSpawn();
+            if (componentsCach.baseAI) componentsCach.baseAI.OnSpawn();
         }
 
         public virtual void OnDespawn()
         {
             all.Remove(this);
-            if(componentsCach.baseAI) componentsCach.baseAI.OnSpawn();
+            if (componentsCach.baseAI) componentsCach.baseAI.OnSpawn();
         }
 
         public virtual Stats GetStats()

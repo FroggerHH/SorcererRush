@@ -11,13 +11,15 @@ namespace SorcererRush
         public int maxLevel;
         public int startLevel;
 
-        public AttackMode attackMode;
-        public ComponentsCach projectile;
         public WeaponStats baseStats;
-
         public List<WeaponLevelStats> stats = new();
-        public bool IsProjectileAttack => attackMode == AttackMode.Projectile;
-        public bool IsTouchAttack => attackMode == AttackMode.Touch;
+
+        public ComponentsCach projectile;
+        public TargetMode targetMode = TargetMode.Nearest;
+        // public AttackMode attackMode;
+        //
+        // public bool IsProjectileAttack => attackMode == AttackMode.Projectile;
+        // public bool IsTouchAttack => attackMode == AttackMode.Touch;
 
         public WeaponLevelStats CurrentStats
         {
@@ -38,5 +40,11 @@ namespace SorcererRush
                 return result;
             }
         }
+    }
+
+    public enum TargetMode
+    {
+        Nearest,
+        Random
     }
 }
