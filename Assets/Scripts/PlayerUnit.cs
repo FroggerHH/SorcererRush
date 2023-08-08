@@ -17,8 +17,9 @@ namespace SorcererRush
             return playerStats;
         }
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             control = GetComponent<PlayerControl>();
             control.InitValues();
         }
@@ -28,7 +29,7 @@ namespace SorcererRush
             base.OnDeath();
             if (playerUnits.Count == 0)
             {
-                GameManager.Instance.GameOver();
+                GameStartPoint.Instance.GameOver();
             }
         }
 

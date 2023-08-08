@@ -265,6 +265,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 717b6c910f054500a2687bb4164cfcea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 0}
+  character: {fileID: 3292649280836402585}
   baseAI: {fileID: 0}
   projectile: {fileID: 0}

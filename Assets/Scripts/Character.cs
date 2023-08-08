@@ -32,7 +32,7 @@ namespace SorcererRush
 
         [SerializeField] private List<string> startItems;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             SetPrefab();
             componentsCach = GetComponent<ComponentsCach>();
@@ -51,6 +51,7 @@ namespace SorcererRush
 
         protected virtual void Reset()
         {
+            if (Application.isEditor) GetComponent<ComponentsCach>().character = this;
             SetRenderers();
         }
 
@@ -67,7 +68,7 @@ namespace SorcererRush
         public ITakeDamage TakeDamage(Damage damage)
         {
             health -= damage.damage;
-            GameManager.Instance.localInGameUI.CreatePopUp(damage.damage.ToString(), transform.position);
+            GameStartPoint.Instance.localInGameUI.CreatePopUp(damage.damage.ToString(), transform.position);
 
             OnDamaged();
             return this;

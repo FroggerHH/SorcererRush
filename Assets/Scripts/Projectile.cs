@@ -11,6 +11,12 @@ namespace SorcererRush
         [SerializeField] private Weapon weapon;
         [SerializeField] private Rigidbody rb;
 
+
+        private void Reset()
+        {
+            if (Application.isEditor) GetComponent<ComponentsCach>().projectile = this;
+        }
+
         public void Setup(Vector2 direction)
         {
             NightPool.Despawn(this, weapon.CalculateLifeTime());
@@ -28,8 +34,8 @@ namespace SorcererRush
 
         private void OnCollisionEnter(Collision other)
         {
-            if (!other.gameObject.CompareTag(GameManager.Instance.enemyTag)) return;
-            if(!other.gameObject.TryGetComponent(out ITakeDamage takeDamage)) return;
+            if (!other.gameObject.CompareTag(GameStartPoint.Instance.enemyTag)) return;
+            if (!other.gameObject.TryGetComponent(out ITakeDamage takeDamage)) return;
             weapon.ApplyDamageTo(takeDamage);
         }
     }

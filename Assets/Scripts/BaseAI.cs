@@ -16,6 +16,10 @@ namespace SorcererRush
         public PlayerUnit target { get; protected set; }
         public bool HasTarget() => target;
 
+        private void Reset()
+        {
+            if (Application.isEditor) GetComponent<ComponentsCach>().baseAI = this;
+        }
 
         protected virtual void Awake()
         {
